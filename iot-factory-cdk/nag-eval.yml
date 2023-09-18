@@ -1,0 +1,9 @@
+RulesToSuppress:
+- id: W11
+  reason: "[IAM role should not allow * resource on its permissions policy] - Some creation actions 'iot:CreateKeysAndCertificate' requires '*' for resource build"
+- id: W12
+  reason: "[IAM policy should not allow * resource] - Log Retention Policy is automatically built by CDK, and policy resource cannot be changed to remove '*'.  Additionally, some creation actions 'iot:CreateKeysAndCertificate' requires '*' for resource build"
+- id: W28
+  reason: "[Resource found with an explicit name, this disallows updates that require replacement of this resource] - Role Alias Name is essential to permission sets created for GreenGrass Resource allowance policies"
+- id: W58
+  reason: "[Warning - Lambda functions require permission to write CloudWatch Logs] - Each lambda function is provided a role that has AWSLambdaBasicExecutionRole IAM Policy attached to it, providing permission to write to CloudWatch Logs - this is not evaluated by cfn-nag"

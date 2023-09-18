@@ -1,0 +1,5 @@
+Time Interval, Browse Path, Value Source, Data Type
+"0","line1/stampingpress1/pressure","realistic(100.0, 1.2, 0.06, 0.25, true)","Double"
+"0","line1/stampingpress1/temperature","realistic(100.0, 1.2, 0.06, 0.25, true)","Double"
+"0","line1/stampingpress2/pressure","realistic(100.0, 1.2, 0.06, 0.25, true)","Double"
+"0","line1/stampingpress2/temperature","realistic(100.0, 1.2, 0.06, 0.25, true)","Double"
