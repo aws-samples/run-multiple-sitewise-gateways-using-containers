@@ -18,6 +18,7 @@
 
 from aws_cdk import (
     aws_ec2 as ec2,
+    aws_iam as iam,
     Stack, CfnOutput
 )
 from constructs import Construct
@@ -38,26 +39,19 @@ class OPCUAInstanceStack(Stack):
             vpc=default_vpc,
             allow_all_outbound=True
         )
-        # Add a HTTP inbound rule
-        ec2_security_group.add_ingress_rule(
-            peer=ec2.Peer.ipv4('0.0.0.0/0'),
-            connection=ec2.Port.tcp(80),
-            description="Allow HTTP access from anywhere"
+        # Create a role for the instance
+        iam_role = iam.Role(self, "OPCUAInstanceRole",
+            assumed_by=iam.ServicePrincipal("ec2.amazonaws.com"),
+            description="Allows EC2 instance to access AWS services using IAM credentials"
             )
-        
-        ec2_security_group.add_ingress_rule(
-            peer=ec2.Peer.ipv4('0.0.0.0/0'),
-            connection=ec2.Port.tcp(62541),
-            description="Allow OPC UA access from anywhere"
-            )
-        
+        iam_role.add_managed_policy(iam.ManagedPolicy.from_aws_managed_policy_name("AmazonSSMManagedInstanceCore"))
         # Instance
         instance = ec2.Instance(self, "Ignition_CDK"
                                 ,instance_type=ec2.InstanceType("t2.medium")
                                 ,machine_image=ignition_image
                                 ,vpc=default_vpc
+                                ,role=iam_role
                                 ,security_group=ec2_security_group)
-        
         CfnOutput(self, 'EC2IP',
             export_name = f'{stack.stack_name}-OPCUA-IP',
             value = instance.instance_private_ip
@@ -66,8 +60,6 @@ class OPCUAInstanceStack(Stack):
             export_name = f'{stack.stack_name}-OPCUA-Public-IP',
             value = instance.instance_public_ip
         )
-
-
         CfnOutput(self, 'EC2Port',
             export_name = f'{stack.stack_name}-OPCUA-PORT',
             value = "62541"
