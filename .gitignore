@@ -1,0 +1,9 @@
+# Local Debug Folders
+# Used for Python3 virtual enviroment
+.venv
+# Greengrass Local Files
+greengrassv2-installation/docker/greengrass.zip.sha256
+greengrassv2-installation/sitewise-deployments.json
+greengrassv2-installation/docker/docker-compose.yml
+# VSCode Files
+.vscode
